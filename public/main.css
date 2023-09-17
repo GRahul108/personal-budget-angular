@@ -208,7 +208,7 @@ section.center {
 }
 
 @media screen and (min-width: 768px) {
-    .container section.text-box {
+    main article {
         margin: 10px;
     }
 }

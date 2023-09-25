@@ -1,4 +1,4 @@
-import { Component, AfterViewInit} from '@angular/core';
+import { Component, AfterViewInit, ViewChild, ElementRef} from '@angular/core';
 import {  HttpClient, HttpClientModule } from '@angular/common/http';
 import { Chart } from 'chart.js/auto';
 import * as d3 from 'd3';
@@ -10,11 +10,13 @@ import { DataService } from '../data.service';
   styleUrls: ['./homepage.component.scss']
 })
 export class HomepageComponent implements AfterViewInit {
+  @ViewChild('pieChart', { static: false })
+  pieChartContainer!: ElementRef;
 
   private svg: any;
   private margin = 50;
-  private width = 750;
-  private height = 600;
+  private width =350;
+  private height =350;
   // The radius of the pie chart is half the smallest side
   private radius = Math.min(this.width, this.height) / 2 - this.margin;
   private colors:any;
@@ -47,15 +49,23 @@ export class HomepageComponent implements AfterViewInit {
 
   }
   createSvg(): void {
-    this.svg = d3.select("#pie")
-    .append("svg")
-    .attr("width", this.width)
-    .attr("height", this.height)
-    .append("g")
-    .attr(
-      "transform",
-      "translate(" + this.width / 2 + "," + this.height / 2 + ")"
-    );
+    // this.svg = d3.select("figure#pie")
+    // .append("svg")
+    // .attr("width", this.width)
+    // .attr("height", this.height)
+    // .append("g")
+    // .attr(
+    //   "transform",
+    //   "translate(" + this.width / 2 + "," + this.height / 2 + ")"
+    // );
+
+  const chartElement = this.pieChartContainer.nativeElement;
+  this.svg = d3.select(chartElement)
+    .append('svg')
+    .attr('width', this.width)
+    .attr('height', this.height)
+    .append('g')
+    .attr('transform', 'translate(' + this.width / 2 + ',' + this.height / 2 + ')');
 }
 
 private createColors(): void {
